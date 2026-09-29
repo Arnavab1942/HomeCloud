@@ -1,0 +1,32 @@
+Here is the exact prompt to paste into your Antigravity CLI to autonomously implement the file management logic in your Dashboard. Make sure you are still in the main C:\Home Cloud CLI\ directory when you run this.
+
+Write and execute Node.js scripts to update the Dashboard component in the React frontend to integrate with the HomeCloud File Management API.
+
+Modify `frontend/src/pages/Dashboard.tsx` to implement the following features using the `api` service created in `frontend/src/api/api.ts`. 
+
+1. State Management:
+- Implement a `files` state to store the array of file objects returned from the backend.
+- Use a `useEffect` hook to call `api.get('/api/files')` on component mount and set the retrieved files to state.
+
+2. Upload Feature:
+- Update the "Upload File" button to trigger a hidden `<input type="file" />`.
+- On file selection, automatically upload it via `api.post('/api/files/upload', formData)`.
+- FORMAT REQUIREMENT: Use `FormData` and append the file using the key `"file"`. Do NOT set a manual Content-Type header.
+- Upon success, refresh the file list.
+
+3. Download Feature:
+- Wire the "Download" button for each file to call `api.get('/api/files/${file.id}/download', { responseType: "blob" })`.
+- Create a temporary URL using `window.URL.createObjectURL(response.data)` and programmatically click a hidden `<a>` tag to trigger the browser download using the file's `filename`.
+
+4. Rename Feature:
+- Wire the "Rename" button to prompt the user for a new name (e.g., using `window.prompt`).
+- If a name is provided, call `api.put('/api/files/${file.id}', params)`.
+- FORMAT REQUIREMENT: Pass the payload using `URLSearchParams` with the key `"filename"`, so it sends as `application/x-www-form-urlencoded`.
+- Upon success, refresh the file list.
+
+5. Delete Feature:
+- Wire the "Delete" button to confirm deletion (e.g., using `window.confirm`).
+- Call `api.delete('/api/files/${file.id}')`.
+- Upon success, update the state to remove the deleted file.
+
+Ensure all network calls include basic `.catch()` error handling (e.g., logging to console or showing a basic alert). Output a confirmation message once the component is updated.

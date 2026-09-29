@@ -1,0 +1,45 @@
+### HomeCloud LAN Quick Start Guide ###
+
+1. NETWORK SETUP
+- Connect this laptop to your phone's mobile hotspot.
+- Open Command Prompt and run: ipconfig
+- Find "Wireless LAN adapter Wi-Fi" and copy the IPv4 Address (e.g., 192.168.43.x).
+
+2. START DATABASE
+- Open a terminal and navigate to the backend folder:
+  cd "C:\Home Cloud CLI\Backend"
+- Run the database container in the background:
+  docker compose up -d
+
+3. START BACKEND (SPRING BOOT)
+- Open Eclipse IDE.
+- Ensure the project is loaded and dependencies are updated.
+- Locate the main class (HomeCloudApplication.java) in src/main/java.
+- Right-click the file -> Run As -> Java Application.
+- Wait for the Spring Boot startup confirmation in the Eclipse console.
+
+4. START FRONTEND (REACT)
+- Open the frontend/.env file in a text editor.
+- Update the IP address to match the one copied in Step 1: 
+  VITE_API_BASE_URL=http://<YOUR_WIFI_IP>:8080
+- Open a new terminal and navigate to the frontend folder:
+  cd "C:\Home Cloud CLI\frontend"
+- Start the web server and expose it to the network:
+  npm run dev -- --host
+
+5. ACCESS THE APP
+- On the phone providing the hotspot, open the browser.
+- Navigate to the frontend URL: http://<YOUR_WIFI_IP>:5173
+
+6. PROPER SHUTDOWN
+- Frontend: Press Ctrl + C in the frontend terminal.
+- Backend: Click the red "Terminate" square in the Eclipse console.
+- Database: Run `docker compose down` in the backend terminal.
+
+
+
+* If you want to check the database then start the docker engine 
+docker exec -it homecloud-postgres psql -U homecloud -d homecloud
+
+SELECT * FROM users;
+\q   #to exit
